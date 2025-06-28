@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car List</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px 15px;
+        }
+    </style>
+</head>
+<body>
+<h2>Car List</h2>
+
+<!-- Yeni araç ekleme formu -->
+<form th:action="@{/cars/save}" th:object="${car}" method="post">
+    <label>Brand:</label>
+    <input type="text" th:field="*{brand}" required />
+    <label>Model:</label>
+    <input type="text" th:field="*{model}" required />
+    <label>Type:</label>
+    <input type="text" th:field="*{type}" required />
+    <button type="submit">Add Car</button>
+</form>
+
+<!-- Araçlar tablosu -->
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Type</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="car : ${cars}">
+            <td th:text="${car.id}"></td>
+            <td th:text="${car.brand}"></td>
+            <td th:text="${car.model}"></td>
+            <td th:text="${car.type}"></td>
+            <td>
+                <form th:action="@{'/cars/' + ${car.id} + '/delete'}" method="post" style="display:inline">
+                    <button type="submit" onclick="return confirm('Are you sure to delete this car?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
